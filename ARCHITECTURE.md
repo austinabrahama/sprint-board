@@ -1,0 +1,15 @@
+1. Why are we choosing a modular monolith?
+    Modular monolith is like approach of both multiple modules with single deployment structure and the modules are seperated as individual features based on business needs. The developer can easily able to modify a change in a specific module without disturbing another module. It also provides easy module owner responsibility and also if needed then we can easily remove a specific feature from the product. But in microservices each service should be deployed individually and having seperate DB for each services, But in this approach all module module is deployed at once.
+2. Why are we using feature-oriented architecture?
+    Each feature has its own business logic, data fetching. Each feature has boundaries and communicate each other with the help of common api's. By defining the modules clearly we can we can upgrade a feature into service and scale it in future. In Monolith architecture there is restriction that each feature can modify other feature at any time. Each feature can import the only applicable exported interface from another feature.
+3. What is the responsibility of app/ versus features/?
+    /app responsible for routing where as /feature is for business logic.
+    /app should be thin in which the route not dependent upon another feature, because there is a chance of removing a feature in future.
+    The clear idea of this features/ is to move the business logic away from routing that is app/.
+4. When should a component go into components/ui/ instead of a feature folder?
+    If a component is a building block and does not dependent on any business logic and can be generic and used globally across the module without any props then it can be moved it in components/ui. Feature folder can use component/ui but component/ui should not use feature folder.
+    Only move a product code it inside components/ui if that is a pure reusable code.
+5. Why shouldn't we put all application state into Redux?
+    There are 5 different states such as server state which is a cached data of db tables, url state like pagination or sorting, form state like input field values, UI state like useStae(dropdown open), common client shared state. Putting all of these state will cause problems like stale entries if server state is used, unnecessary reredering eventhough less usage state is stored, extra burden for sync, a small state can go through complex state handling with action reducer and selector. Because of these things we should avoid putting all application state into Redux
+6. Why should we keep Server Components as the default?
+    Server components provide the result to the browser and it avoids sending js files due to this there should be no additional load in client side and also the UI loads faster even in low configured machines(phones). Because of server generated html it helps improvement in SEO. We can use client component if we used hooks, event listeners and later we can use server components as children inside the client components. In server component, the data fetching happen in the server side itself so it does not expose to an vulnerability.
